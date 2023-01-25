@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="awBuildifyExtensionAttributes" xsi:type="array">
+                    <item name="class" xsi:type="string">Aheadworks\Buildify\Ui\DataProvider\Product\Form\Modifier\ExtensionAttributes</item>
+                    <item name="sortOrder" xsi:type="number">700</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
+        <arguments>
+            <argument name="constructors" xsi:type="array">
+                <item name="awBuildifyEntityField" xsi:type="string">Aheadworks\Buildify\Model\Product\CopyConstructor\EntityField</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

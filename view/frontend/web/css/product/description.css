@@ -1,0 +1,7 @@
+.product.data.items #description #buildify {
+    display: none;
+}
+.product.info.detailed {
+    position: relative;
+    z-index: 10;
+}

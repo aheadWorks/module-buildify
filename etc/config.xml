@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <aw_bfy>
+            <aw_bfy_setting>
+                <enabled>0</enabled>
+                <is_enabled_entity_cms_page>0</is_enabled_entity_cms_page>
+                <is_enabled_entity_cms_block>0</is_enabled_entity_cms_block>
+                <is_enabled_entity_catalog_category>0</is_enabled_entity_catalog_category>
+                <is_enabled_entity_product_description>0</is_enabled_entity_product_description>
+                <is_enabled_entity_aw_blog_post_content>1</is_enabled_entity_aw_blog_post_content>
+                <api_base_url>https://magento.buildify.shop</api_base_url>
+            </aw_bfy_setting>
+        </aw_bfy>
+        <dev>
+            <js>
+                <minify_exclude>
+                    <buildify_magento_frontend>js/buildify-magento-frontend.js</buildify_magento_frontend>
+                </minify_exclude>
+            </js>
+        </dev>
+    </default>
+</config>

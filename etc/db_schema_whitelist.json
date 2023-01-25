@@ -1,0 +1,45 @@
+{
+    "aw_buildify_entity_field": {
+        "column": {
+            "id": true,
+            "entity_id": true,
+            "entity_type": true,
+            "css_style": true,
+            "editor_config": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "aw_buildify_revision": {
+        "column": {
+            "id": true,
+            "bfy_entity_id": true,
+            "created_at": true,
+            "css_style": true,
+            "editor_config": true
+        },
+        "index": {
+            "AW_BUILDIFY_REVISION_BFY_ENTITY_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AW_BUILDIFY_REVISION_BFY_ENTITY_ID_AW_BUILDIFY_ENTITY_FIELD_ID": true
+        }
+    },
+    "aw_buildify_template": {
+        "column": {
+            "id": true,
+            "external_id": true,
+            "title": true,
+            "source": true,
+            "type": true,
+            "created_at": true,
+            "css_style": true,
+            "editor_config": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="products_list">
+        <parameters>
+            <parameter name="template" xsi:type="select">
+                <options>
+                    <option name="aw_buildify_product_list_slider" value="Aheadworks_Buildify::product/widget/content/slider.phtml">
+                        <label translate="true">Products Slider Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget id="new_products">
+        <parameters>
+            <parameter name="template" xsi:type="select">
+                <options>
+                    <option name="aw_buildify_product_list_slider" value="Aheadworks_Buildify::product/widget/content/slider.phtml">
+                        <label translate="true">Products Slider Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

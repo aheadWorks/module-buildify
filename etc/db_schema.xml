@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="aw_buildify_entity_field" resource="default" engine="innodb" comment="AW Buildify Entity Table">
+        <column xsi:type="int" name="id" padding="11" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="int" name="entity_id" padding="11" unsigned="true" nullable="false" identity="false"
+                comment="Entity Id"/>
+        <column xsi:type="text" name="entity_type" nullable="false" comment="Entity Type"/>
+        <column xsi:type="mediumtext" name="css_style" nullable="true" comment="Css Style"/>
+        <column xsi:type="mediumtext" name="editor_config" nullable="true" comment="Editor Config Data"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="aw_buildify_revision" resource="default" engine="innodb" comment="AW Buildify Revision Table">
+        <column xsi:type="int" name="id" padding="11" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="int" name="bfy_entity_id" padding="11" unsigned="true" nullable="false" identity="false"
+                comment="Bfy Entity Id"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" comment="Created Date"
+                default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="mediumtext" name="css_style" nullable="false" comment="Css Style"/>
+        <column xsi:type="text" name="editor_config" nullable="false" comment="Editor Config Data"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AW_BUILDIFY_REVISION_BFY_ENTITY_ID_AW_BUILDIFY_ENTITY_FIELD_ID"
+                    table="aw_buildify_revision" column="bfy_entity_id" referenceTable="aw_buildify_entity_field"
+                    referenceColumn="id" onDelete="CASCADE"/>
+        <index referenceId="AW_BUILDIFY_REVISION_BFY_ENTITY_ID_AW_BUILDIFY_ENTITY_FIELD_ID" indexType="btree">
+            <column name="bfy_entity_id"/>
+        </index>
+    </table>
+    <table name="aw_buildify_template" resource="default" engine="innodb" comment="AW Buildify Template Table">
+        <column xsi:type="int" name="id" padding="11" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="varchar" name="external_id" nullable="false" length="50" comment="External Id"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="100" comment="Title"/>
+        <column xsi:type="varchar" name="source" nullable="false" length="50" comment="Source"/>
+        <column xsi:type="varchar" name="type" nullable="false" length="50" comment="Type"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" comment="Created Date"
+                default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="mediumtext" name="css_style" nullable="false" comment="Css Style"/>
+        <column xsi:type="text" name="editor_config" nullable="false" comment="Editor Config Data"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+</schema>

@@ -1,0 +1,88 @@
+<?php
+/** @var $block \Aheadworks\Buildify\Block\Adminhtml\Buildify\Builder */
+
+$htmlId = 'aw_bfy_' . $block->getHtmlId();
+$extensionAttributesKey = $block->getExtensionAttributesKey();
+$viewModel = $block->getViewModel();
+?>
+<div data-role="<?= /* @noEscape */ $htmlId ?>">
+    <div id="<?= /* @noEscape */ $htmlId ?>"></div>
+</div>
+<?php if ($viewModel->isModalEnabled()): ?>
+    <button type="button" class="action" data-trigger="<?= /* @noEscape */ $htmlId ?>">
+        <span><?= $block->escapeHtml(__('Edit with Buildify')) ?></span>
+    </button>
+<?php endif; ?>
+<script>
+    window.awBuildifyConfig = <?= /* @noEscape */ $viewModel->getSerializedConfig() ?>;
+
+    var config = {
+        paths: {
+            'buildifyClient': [
+                '<?= /* @noEscape */  $viewModel->getClientUrl() ?>',
+                'Aheadworks_Buildify/js/fake-buildify-client'
+            ]
+        }
+    };
+    require.config(config);
+</script>
+<script>
+    require([
+        'jquery',
+        'Aheadworks_Buildify/js/adapter',
+        'Aheadworks_Buildify/js/adapter/file-manager',
+        'Aheadworks_Buildify/js/adapter/form',
+        'Aheadworks_Buildify/js/adapter/template',
+        'Aheadworks_Buildify/js/adapter/revision',
+        'Aheadworks_Buildify/js/adapter/widget',
+        'Aheadworks_Buildify/js/adapter/demotour',
+        'Magento_Ui/js/modal/modal'
+    ], function (
+        $,
+        buildifyAdapter,
+        fileManagerAdapter,
+        formAdapter,
+        templateAdapter,
+        revisionAdapter,
+        widgetAdapter,
+        demotour
+    ) {
+        var config = {
+            builderSelector: '<?= /* @noEscape */ $htmlId ?>',
+            builderFrameUrl: '<?= /* @noEscape */ $viewModel->getFrameUrl() ?>',
+            builderFrameParams: JSON.parse('<?= /* @noEscape */ $block->getFrameUrlParamsJson() ?>'),
+            extensionAttributesKey: '<?= /* @noEscape */ $extensionAttributesKey ?>',
+            mediaFileManagerOpenCallback: fileManagerAdapter.mediaFileManagerOpen.bind(fileManagerAdapter),
+            getBuilderObjectCallback: formAdapter.getBuilderObjectCallback.bind(formAdapter),
+            saveTemplateCallback: templateAdapter.saveTemplate.bind(templateAdapter),
+            exportTemplateCallback: templateAdapter.exportTemplate.bind(templateAdapter),
+            importTemplateCallback: templateAdapter.importTemplate.bind(templateAdapter),
+            getTemplatesCallback: templateAdapter.getTemplates.bind(templateAdapter),
+            deleteTemplateCallback: templateAdapter.deleteTemplate.bind(templateAdapter),
+            importTemplateToEditorCallback: templateAdapter.importTemplateToEditor.bind(templateAdapter),
+            deleteRevisionCallback: revisionAdapter.deleteRevision.bind(revisionAdapter),
+            importRevisionToEditorCallback: revisionAdapter.importRevisionToEditor.bind(revisionAdapter),
+            widgetModalOpenCallback: widgetAdapter.widgetModalOpen.bind(widgetAdapter),
+            demotourEndCallback: demotour.demotourEnd.bind(demotour)
+        };
+
+        if (window.awBuildifyConfig.isModal) {
+            var isModalOpened = false;
+            $('[data-role="<?= /* @noEscape */ $htmlId ?>"]').modal({
+                'type': 'slide',
+                'modalClass': 'magento-buildify-modal',
+                'trigger': '[data-trigger="<?= /* @noEscape */ $htmlId ?>"]',
+                'buttons': [],
+                'responsive': true,
+                'opened': function () {
+                    if (!isModalOpened) {
+                        buildifyAdapter.setup(config);
+                        isModalOpened = true;
+                    }
+                }
+            });
+        } else {
+            buildifyAdapter.setup(config);
+        }
+    });
+</script>

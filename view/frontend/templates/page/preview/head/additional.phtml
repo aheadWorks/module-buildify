@@ -1,0 +1,19 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Framework\View\Element\Template */
+$baseThemeUrl = $block->escapeUrl($block->getViewFileUrl('/'));
+/** @var $viewModel \Aheadworks\Buildify\ViewModel\Buildify\Page\Preview */
+$viewModel = $block->getViewModel();
+?>
+<script>
+    var config = {
+        paths: {
+            <?php foreach ($viewModel->getPathFilesToRemap() as $pathFile): ?>
+                <?php $fileUrl = $baseThemeUrl . '/' . ($pathFile->getUrl() ?? $pathFile->getKey()) . '.' . $pathFile->getExtension(); ?>
+                '<?= $pathFile->getKey() ?>': '<?= $viewModel->getProxyUrl($fileUrl, $baseThemeUrl) ?>',
+            <?php endforeach; ?>
+        }
+    };
+    require.config(config);
+</script>

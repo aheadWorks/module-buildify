@@ -1,0 +1,410 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Aheadworks\Buildify\Api\Data\EntityFieldInterface" type="Aheadworks\Buildify\Model\EntityField" />
+    <preference for="Aheadworks\Buildify\Api\Data\TemplateInterface" type="Aheadworks\Buildify\Model\Buildify\Template" />
+    <preference for="Aheadworks\Buildify\Api\TemplateRepositoryInterface" type="Aheadworks\Buildify\Model\Buildify\TemplateRepository" />
+    <preference for="Aheadworks\Buildify\Api\Data\TemplateSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Aheadworks\Buildify\Api\Data\EntityFieldSearchResultInterface" type="Magento\Framework\Api\SearchResults" />
+
+    <preference for="Aheadworks\Buildify\Api\Data\RevisionInterface" type="Aheadworks\Buildify\Model\Buildify\Revision" />
+    <preference for="Aheadworks\Buildify\Api\RevisionRepositoryInterface" type="Aheadworks\Buildify\Model\Buildify\RevisionRepository" />
+    <preference for="Aheadworks\Buildify\Api\Data\RevisionSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+
+    <preference for="Aheadworks\Buildify\Api\RequestManagementInterface" type="Aheadworks\Buildify\Model\Service\RequestService" />
+    <preference for="Aheadworks\Buildify\Api\UrlManagementInterface" type="Aheadworks\Buildify\Model\Service\UrlService" />
+    <preference for="Aheadworks\Buildify\Api\EntityFieldManagementInterface" type="Aheadworks\Buildify\Model\Service\EntityFieldService" />
+    <preference for="Aheadworks\Buildify\Api\ProductListWidgetConfigInterface" type="Aheadworks\Buildify\Model\Service\ProductListWidgetConfigService" />
+    <preference for="Magento\Framework\Data\Form\Element\Editor" type="Aheadworks\Buildify\Block\Adminhtml\Element\Editor" />
+
+    <preference for="Aheadworks\Buildify\Api\Data\EditorConfigRequestInterface" type="Aheadworks\Buildify\Model\Buildify\Request\EditorConfigRequest" />
+    <preference for="Aheadworks\Buildify\Api\Data\EditorConfigResponseInterface" type="Aheadworks\Buildify\Model\Buildify\Response\EditorConfigResponse" />
+    <preference for="Aheadworks\Buildify\Api\Data\BuilderConfigInterface" type="Aheadworks\Buildify\Model\Buildify\BuilderConfig" />
+    <preference for="Aheadworks\Buildify\Model\Proxy\File\Requirejs\PathInterface" type="Aheadworks\Buildify\Model\Proxy\File\Requirejs\Path" />
+    <preference for="Aheadworks\Buildify\Api\EntityRepositoryInterface" type="Aheadworks\Buildify\Model\Buildify\Entity\Repository" />
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="awBuildifyRemoveDomainFromImgPath" xsi:type="object">Aheadworks\Buildify\Console\Command\RemoveDomainFromImgPath</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\ViewModel\Buildify\Builder\EntityLocator">
+        <arguments>
+            <argument name="locators" xsi:type="array">
+                <item name="cmsPage" xsi:type="object">Aheadworks\Buildify\ViewModel\Buildify\Builder\Entity\Cms\Page</item>
+                <item name="cmsBlock" xsi:type="object">Aheadworks\Buildify\ViewModel\Buildify\Builder\Entity\Cms\Block</item>
+                <item name="catalogCategory" xsi:type="object">Aheadworks\Buildify\ViewModel\Buildify\Builder\Entity\Catalog\Category</item>
+                <item name="catalogProduct" xsi:type="object">Aheadworks\Buildify\ViewModel\Buildify\Builder\Entity\Catalog\Product</item>
+                <item name="awBlogPost" xsi:type="object">Aheadworks\Buildify\ViewModel\Buildify\Builder\Entity\AwBlog\Post</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\ViewModel\Buildify\Builder\BuilderConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="cms_page" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_PAGE_ENTITY_TYPE</item>
+                <item name="cms_block" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_BLOCK_ENTITY_TYPE</item>
+                <item name="catalog_category" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_CATEGORY_ENTITY_TYPE</item>
+                <item name="product_description" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_PRODUCT_ENTITY_DESCRIPTION_TYPE</item>
+                <item name="aw_blog_post_content" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::AW_BLOG_ENTITY_CONTENT_TYPE</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Page"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Page</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Page"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Page</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Cms\Controller\Adminhtml\Page\Save">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Cms\Controller\Adminhtml\Page\SavePlugin" />
+    </type>
+
+    <type name="Magento\Cms\Model\Page\DataProvider">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\Page\DataProviderPlugin" />
+    </type>
+
+    <type name="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandlerFactory">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="cms_page" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Page</item>
+                <item name="cms_block" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Block</item>
+                <item name="catalog_category" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Catalog\Category</item>
+                <item name="product_description" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Product\Description</item>
+                <item name="aw_blog_post_content" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\AwBlog\Content</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\ConverterFactory">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="cms_page" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Page</item>
+                <item name="cms_block" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Block</item>
+                <item name="catalog_category" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Catalog\Category</item>
+                <item name="product_description" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Product\Description</item>
+                <item name="aw_blog_post_content" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\AwBlog\Content</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\Model\Entity\Config">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="cms_page_form" xsi:type="array">
+                    <item name="content" xsi:type="array">
+                        <item name="isModal" xsi:type="boolean">false</item>
+                        <item name="extensionAttributesKey" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_PAGE_ENTITY_TYPE</item>
+                        <item name="repo" xsi:type="string">Magento\Cms\Api\PageRepositoryInterface</item>
+                        <item name="model" xsi:type="string">Magento\Cms\Api\Data\PageInterface</item>
+                    </item>
+                </item>
+                <item name="cms_block_form" xsi:type="array">
+                    <item name="content" xsi:type="array">
+                        <item name="isModal" xsi:type="boolean">false</item>
+                        <item name="extensionAttributesKey" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_BLOCK_ENTITY_TYPE</item>
+                        <item name="repo" xsi:type="string">Magento\Cms\Api\BlockRepositoryInterface</item>
+                        <item name="model" xsi:type="string">Magento\Cms\Api\Data\BlockInterface</item>
+                    </item>
+                </item>
+                <item name="category_form" xsi:type="array">
+                    <item name="description" xsi:type="array">
+                        <item name="isModal" xsi:type="boolean">true</item>
+                        <item name="extensionAttributesKey" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_CATEGORY_ENTITY_TYPE</item>
+                        <item name="repo" xsi:type="string">Magento\Catalog\Api\CategoryRepositoryInterface</item>
+                        <item name="model" xsi:type="string">Magento\Catalog\Api\Data\CategoryInterface</item>
+                    </item>
+                </item>
+                <item name="product_form" xsi:type="array">
+                    <item name="description" xsi:type="array">
+                        <item name="isModal" xsi:type="boolean">true</item>
+                        <item name="extensionAttributesKey" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_PRODUCT_ENTITY_DESCRIPTION_TYPE</item>
+                        <item name="repo" xsi:type="string">Magento\Catalog\Api\ProductRepositoryInterface</item>
+                        <item name="model" xsi:type="string">Magento\Catalog\Api\Data\ProductInterface</item>
+                    </item>
+                </item>
+                <item name="aw_blog_post_form" xsi:type="array">
+                    <item name="content" xsi:type="array">
+                        <item name="isModal" xsi:type="boolean">true</item>
+                        <item name="extensionAttributesKey" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::AW_BLOG_ENTITY_CONTENT_TYPE</item>
+                        <item name="repo" xsi:type="string">Aheadworks\Blog\Api\PostRepositoryInterface</item>
+                        <item name="model" xsi:type="string">Aheadworks\Blog\Api\PostRepositoryInterface</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\Model\Buildify\Entity\Adapter\ContentPreparer">
+        <arguments>
+            <argument name="isNeededMerge" xsi:type="array">
+                <item name="cmsBlock" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_BLOCK_ENTITY_TYPE</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\ViewModel\Template\CssLoader">
+        <arguments>
+            <argument name="identifiers" xsi:type="array">
+                <item name="catalog_category" xsi:type="array">
+                    <item name="requestKey" xsi:type="string">id</item>
+                    <item name="entityType" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_CATEGORY_ENTITY_TYPE</item>
+                </item>
+                <item name="catalog_product" xsi:type="array">
+                    <item name="requestKey" xsi:type="string">id</item>
+                    <item name="entityType" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_PRODUCT_ENTITY_DESCRIPTION_TYPE</item>
+                </item>
+                <item name="cms_page" xsi:type="array">
+                    <item name="requestKey" xsi:type="string">page_id</item>
+                    <item name="entityType" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_PAGE_ENTITY_TYPE</item>
+                </item>
+                <item name="cms_index" xsi:type="array">
+                    <item name="entityType" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_PAGE_ENTITY_TYPE</item>
+                </item>
+                <item name="aw_blog_post" xsi:type="array">
+                    <item name="requestKey" xsi:type="string">post_id</item>
+                    <item name="entityType" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::AW_BLOG_ENTITY_CONTENT_TYPE</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\Model\ResourceModel\Design\Config\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">design_config_grid_flat</argument>
+            <argument name="model" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\Document</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Theme\Model\ResourceModel\Design\Config</argument>
+        </arguments>
+    </type>
+
+    <!-- START category integration -->
+    <!-- add extension attributes to an entity -->
+    <type name="Magento\Catalog\Model\ResourceModel\Category">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\ResourceModel\CategoryPlugin" />
+    </type>
+    <type name="Magento\Catalog\Model\Category\DataProvider">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\Category\DataProviderPlugin" />
+    </type>
+    <!-- add virtual type like this to the Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\ConverterFactory  -->
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Catalog\Category"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Catalog\Category</argument>
+        </arguments>
+    </virtualType>
+    <!-- add this virtual type like this to the Aheadworks\Buildify\Model\Buildify\Entity\SaveHandlerFactory  -->
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Catalog\Category"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Catalog\Category</argument>
+        </arguments>
+    </virtualType>
+    <!-- END category integration -->
+
+    <!-- START block integration -->
+    <!-- add extension attributes to an entity -->
+    <virtualType name="Aheadworks\Buildify\Model\ResourceModel\Buildify\Entity\ThirdParty\BlockCollection"
+                 type="Aheadworks\Buildify\Model\ResourceModel\Buildify\Entity\ThirdParty\Collection" >
+        <arguments>
+            <argument name="relativeEntityIdField" xsi:type="string">block_id</argument>
+            <argument name="relativeEntityType" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_BLOCK_ENTITY_TYPE</argument>
+            <argument name="additionalColumns" xsi:type="array">
+                <item name="extension_attributes.aw_entity_fields.cms_block.id" xsi:type="string">awbfy_entity.id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Aheadworks\Buildify\Plugin\Model\ResourceModel\Collection\BlockPlugin">
+        <arguments>
+            <argument name="collection" xsi:type="object">Aheadworks\Buildify\Model\ResourceModel\Buildify\Entity\ThirdParty\BlockCollection</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Cms\Model\ResourceModel\Block\Collection">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\ResourceModel\Collection\BlockPlugin" />
+    </type>
+    <type name="Magento\Cms\Api\BlockRepositoryInterface">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\BlockRepositoryPlugin" />
+    </type>
+    <type name="Magento\Cms\Model\ResourceModel\Block">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\ResourceModel\BlockPlugin" />
+    </type>
+    <!-- add virtual type like this to the Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\ConverterFactory  -->
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Block"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Block</argument>
+        </arguments>
+    </virtualType>
+    <!-- add this virtual type like this to the Aheadworks\Buildify\Model\Buildify\Entity\SaveHandlerFactory -->
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Block"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Block</argument>
+        </arguments>
+    </virtualType>
+    <!-- END block integration -->
+
+    <!-- START product description integration -->
+    <type name="Magento\Catalog\Model\ResourceModel\Product">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\ResourceModel\ProductPlugin" />
+    </type>
+    <!-- start product description -->
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\Product\Description"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Product\Description</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\Product\Description"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Product\Description</argument>
+        </arguments>
+    </virtualType>
+    <!-- end product description -->
+    <!-- END product description integration -->
+
+    <!-- START aw_blog integration -->
+    <type name="Aheadworks\Blog\Model\ResourceModel\PostRepository">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\AwBlog\Model\ResourceModel\PostRepositoryPlugin" />
+    </type>
+    <type name="Aheadworks\Blog\Ui\DataProvider\PostDataProvider">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\AwBlog\Ui\DataProvider\PostDataProviderPlugin" />
+    </type>
+    <type name="Aheadworks\Blog\Controller\Adminhtml\Post\Save">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\AwBlog\Controller\Adminhtml\Post\SavePlugin" />
+    </type>
+    <type name="Aheadworks\Blog\Controller\Adminhtml\Post\Validate">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\AwBlog\Controller\Adminhtml\Post\ValidatePlugin" />
+    </type>
+    <!-- start aw_blog content -->
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter\AwBlog\Content"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\ToBuilderConfig\Converter" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\AwBlog\Content</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler\AwBlog\Content"
+                 type="Aheadworks\Buildify\Model\Buildify\Entity\SaveHandler" >
+        <arguments>
+            <argument name="entityAdapter" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Entity\Adapter\AwBlog\Content</argument>
+        </arguments>
+    </virtualType>
+    <!-- end product description -->
+    <!-- END aw_blog integration -->
+
+    <type name="Aheadworks\Buildify\Model\Api\Mapper\MapperManager">
+        <arguments>
+            <argument name="mappers" xsi:type="array">
+                <item name="/builder/act" xsi:type="object">Aheadworks\Buildify\Model\Api\Mapper\Builder\ActMapper</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\Model\ConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="template" xsi:type="object">Aheadworks\Buildify\Model\ConfigProvider\TemplateConfigProvider</item>
+                <item name="revision" xsi:type="object">Aheadworks\Buildify\Model\ConfigProvider\RevisionConfigProvider</item>
+                <item name="modal" xsi:type="object">Aheadworks\Buildify\Model\ConfigProvider\ModalConfigProvider</item>
+                <item name="widget" xsi:type="object">Aheadworks\Buildify\Model\ConfigProvider\WidgetConfigProvider</item>
+                <item name="form" xsi:type="object">Aheadworks\Buildify\Model\ConfigProvider\FormConfigProvider</item>
+                <item name="demotour" xsi:type="object">Aheadworks\Buildify\Model\ConfigProvider\DemotourConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\Model\ConfigProvider\DemotourConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="endTour" xsi:type="boolean">true</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Aheadworks\Buildify\Model\ResourceModel\Buildify\Entity\ThirdParty\PageCollection"
+                 type="Aheadworks\Buildify\Model\ResourceModel\Buildify\Entity\ThirdParty\Collection" >
+        <arguments>
+            <argument name="relativeEntityIdField" xsi:type="string">page_id</argument>
+            <argument name="relativeEntityType" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_PAGE_ENTITY_TYPE</argument>
+            <argument name="additionalColumns" xsi:type="array">
+                <item name="extension_attributes.aw_entity_fields.cms_page.id" xsi:type="string">awbfy_entity.id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Aheadworks\Buildify\Plugin\Model\ResourceModel\Collection\PagePlugin">
+        <arguments>
+            <argument name="collection" xsi:type="object">Aheadworks\Buildify\Model\ResourceModel\Buildify\Entity\ThirdParty\PageCollection</argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\Buildify\Model\Buildify\Template">
+        <arguments>
+            <argument name="processor" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Template\EntityProcessor</argument>
+        </arguments>
+    </type>
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Template\EntityProcessor" type="Aheadworks\Buildify\Model\EntityProcessor" >
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="common" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Template\EntityProcessor\Common</item>
+                <item name="editorConfig" xsi:type="object">Aheadworks\Buildify\Model\Buildify\EntityProcessor\EditorConfig</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Aheadworks\Buildify\Model\Buildify\Revision">
+        <arguments>
+            <argument name="processor" xsi:type="object">Aheadworks\Buildify\Model\Buildify\Revision\EntityProcessor</argument>
+        </arguments>
+    </type>
+    <virtualType name="Aheadworks\Buildify\Model\Buildify\Revision\EntityProcessor" type="Aheadworks\Buildify\Model\EntityProcessor" >
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="editorConfig" xsi:type="object">Aheadworks\Buildify\Model\Buildify\EntityProcessor\EditorConfig</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Cms\Model\ResourceModel\Page">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\ResourceModel\PagePlugin" />
+    </type>
+    <type name="Magento\Cms\Model\ResourceModel\Page\Collection">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\Model\ResourceModel\Collection\PagePlugin" />
+    </type>
+    <type name="Magento\Framework\View\Asset\File">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\View\Asset\FilePlugin" />
+    </type>
+    <type name="Magento\Framework\View\Page\Config\Structure">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\View\Page\Config\StructurePlugin" />
+    </type>
+    <type name="Magento\Framework\View\Page\Config\Renderer">
+        <plugin name="awBuildify" type="Aheadworks\Buildify\Plugin\View\Page\Config\RendererPlugin" />
+    </type>
+    <type name="Magento\PageBuilder\Model\Config">
+        <plugin name="awBuildifyDisablePageBuilder" type="Aheadworks\Buildify\Plugin\PageBuilder\Model\ConfigPlugin" />
+    </type>
+    <type name="Aheadworks\Buildify\Model\Entity\Layout">
+        <arguments>
+            <argument name="layoutMap" xsi:type="array">
+                <item name="cms_page_edit" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_PAGE_ENTITY_TYPE </item>
+                <item name="cms_block_edit" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_BLOCK_ENTITY_TYPE </item>
+                <item name="adminhtml_cms_page_edit" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CMS_PAGE_ENTITY_TYPE </item>
+                <item name="catalog_category_edit" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_CATEGORY_ENTITY_TYPE </item>
+                <item name="catalog_category_add" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_CATEGORY_ENTITY_TYPE </item>
+                <item name="catalog_product_new" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_PRODUCT_ENTITY_DESCRIPTION_TYPE </item>
+                <item name="catalog_product_edit" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::CATALOG_PRODUCT_ENTITY_DESCRIPTION_TYPE </item>
+                <item name="aw_blog_admin_post_edit" xsi:type="const">Aheadworks\Buildify\Api\Data\EntityFieldInterface::AW_BLOG_ENTITY_CONTENT_TYPE </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

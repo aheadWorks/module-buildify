@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Aheadworks\Buildify\Model\Proxy\File\Requirejs\PathMapPool">
+        <arguments>
+            <argument name="pathFiles" xsi:type="array">
+                <item name="0" xsi:type="array">
+                    <item name="key" xsi:type="string">js-translation</item>
+                    <item name="extension" xsi:type="string">json</item>
+                </item>
+                <item name="1" xsi:type="array">
+                    <item name="key" xsi:type="string">ui/template/modal/modal-custom</item>
+                    <item name="url" xsi:type="string">Magento_Ui/ui/template/modal/modal-custom</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="2" xsi:type="array">
+                    <item name="key" xsi:type="string">ui/template/modal/modal-popup</item>
+                    <item name="url" xsi:type="string">Magento_Ui/ui/template/modal/modal-popup</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="3" xsi:type="array">
+                    <item name="key" xsi:type="string">ui/template/modal/modal-slide</item>
+                    <item name="url" xsi:type="string">Magento_Ui/ui/template/modal/modal-slide</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="4" xsi:type="array">
+                    <item name="key" xsi:type="string">ui/template/tooltip/tooltip</item>
+                    <item name="url" xsi:type="string">Magento_Ui/ui/template/tooltip/tooltip</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="5" xsi:type="array">
+                    <item name="key" xsi:type="string">ui/template/block-loader</item>
+                    <item name="url" xsi:type="string">Magento_Ui/ui/template/block-loader</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="6" xsi:type="array">
+                    <item name="key" xsi:type="string">Magento_Checkout/template/minicart/content</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="7" xsi:type="array">
+                    <item name="key" xsi:type="string">Magento_Customer/template/authentication-popup</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="8" xsi:type="array">
+                    <item name="key" xsi:type="string">Magento_Captcha/template/checkout/captcha</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+                <item name="9" xsi:type="array">
+                    <item name="key" xsi:type="string">Magento_Ui/template/messages</item>
+                    <item name="extension" xsi:type="string">html</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
