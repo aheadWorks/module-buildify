@@ -14,17 +14,16 @@ class EnableChecker
 
     /**
      * @param ModuleConfig $moduleConfig
-     * @param Layout $layout
      */
-    public function __construct(ModuleConfig $moduleConfig, Layout $layout)
+    public function __construct(ModuleConfig $moduleConfig)
     {
         $this->moduleConfig = $moduleConfig;
-        $this->layout = $layout;
     }
 
     /**
      * Check is enable for current entity type
      *
+     * @param $type
      * @return bool
      */
     public function isEnabled($type): bool

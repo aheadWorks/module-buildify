@@ -12,6 +12,11 @@ use Magento\Framework\Serialize\Serializer\Json;
 class EditorConfig
 {
     /**
+     * @var Json
+     */
+    private $serializer;
+
+    /**
      * @param Json $serializer
      */
     public function __construct(

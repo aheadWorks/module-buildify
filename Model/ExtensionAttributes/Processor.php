@@ -3,6 +3,9 @@ namespace Aheadworks\Buildify\Model\ExtensionAttributes;
 
 use Aheadworks\Buildify\Api\Data\EntityFieldInterface;
 use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Catalog\Api\Data\CategoryExtensionInterface;
+use Magento\Catalog\Api\Data\ProductExtension;
+use Aheadworks\Blog\Api\Data\PostExtension;
 
 /**
  * Class Processor
@@ -62,7 +65,10 @@ class Processor
             return $attributesArray;
         }
 
-        $awEntityFields = $extensionAttributes->getAwEntityFields();
+        $awEntityFields = $extensionAttributes instanceof CategoryExtensionInterface
+        || $extensionAttributes instanceof ProductExtension
+        || $extensionAttributes instanceof PostExtension
+            ? $extensionAttributes->getAwEntityFields() : null;
         if (!$awEntityFields) {
             return $attributesArray;
         }

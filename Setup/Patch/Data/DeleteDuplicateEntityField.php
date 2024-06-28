@@ -28,6 +28,8 @@ class DeleteDuplicateEntityField implements DataPatchInterface, PatchVersionInte
     public function apply()
     {
         $this->buildifyResourceEntity->deleteDuplicate();
+
+        return $this;
     }
 
     /**

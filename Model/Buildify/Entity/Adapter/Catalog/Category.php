@@ -3,6 +3,7 @@ namespace Aheadworks\Buildify\Model\Buildify\Entity\Adapter\Catalog;
 
 use Aheadworks\Buildify\Api\Data\EntityFieldInterface;
 use Aheadworks\Buildify\Model\Buildify\Entity\Adapter\EntityAdapterInterface;
+use Magento\Catalog\Api\Data\CategoryExtensionInterface;
 
 /**
  * Class Page
@@ -15,7 +16,9 @@ class Category implements EntityAdapterInterface
      */
     public function getEntityField($entity)
     {
-        $entityFields = $entity->getExtensionAttributes()->getAwEntityFields();
+        $extensionAttributes = $entity->getExtensionAttributes();
+        $entityFields = $extensionAttributes instanceof CategoryExtensionInterface ?
+            $extensionAttributes->getAwEntityFields() : [];
 
         return isset($entityFields[EntityFieldInterface::CATALOG_CATEGORY_ENTITY_TYPE])
             ? $entityFields[EntityFieldInterface::CATALOG_CATEGORY_ENTITY_TYPE]

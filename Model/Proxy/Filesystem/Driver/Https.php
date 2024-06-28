@@ -2,6 +2,7 @@
 namespace Aheadworks\Buildify\Model\Proxy\Filesystem\Driver;
 
 use Magento\Framework\Filesystem\Driver\Https as DriverHttps;
+use Magento\Framework\HTTP\ClientInterface;
 
 /**
  * Class Https
@@ -15,6 +16,21 @@ class Https extends DriverHttps
     protected $scheme = '';
 
     /**
+     * @var ClientInterface
+     */
+    private $httpClient;
+
+    /**
+     * @param string $scheme
+     * @param ClientInterface $httpClient
+     */
+    public function __construct(ClientInterface $httpClient, bool $stateful = false)
+    {
+        $this->httpClient = $httpClient;
+        parent::__construct($stateful);
+    }
+
+    /**
      * Gathers the statistics of the given path
      *
      * @param string $path
@@ -23,9 +39,9 @@ class Https extends DriverHttps
      */
     public function statWithContext($path, $context)
     {
+        $this->httpClient->get($path);
         $headers = array_change_key_case(
-        // phpcs:ignore Magento2.Functions.DiscouragedFunction
-            get_headers($this->getScheme() . $path, 1, $context),
+            $this->httpClient->getHeaders() ?? [],
             CASE_LOWER
         );
 
